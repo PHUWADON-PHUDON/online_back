@@ -17,8 +17,13 @@ export class RealtimedataGateway {
 
   @SubscribeMessage("findmatch")
   playqueue(@MessageBody() userid:number,@ConnectedSocket() client: Socket) {
-    console.log(userid);
-    this.realtimedataService.findmatch(userid);
+    const player = this.realtimedataService.findmatch(userid);
+
+    if (player) {
+      if (player.player1 === userid || player.player2 === userid) {
+        this.server.emit("findmatch",player);
+      }
+    }
   }
 
   handleDisconnect(client:Socket) {

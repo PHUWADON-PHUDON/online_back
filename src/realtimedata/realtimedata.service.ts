@@ -36,9 +36,13 @@ export class RealtimedataService {
         if (findonlineuser) {
             this.playqueue.push(findonlineuser);
             this.playqueue = [...new Set(this.playqueue)];
+
+            if (this.playqueue.length >= 2) {
+                const player1 = this.playqueue.shift();
+                const player2 = this.playqueue.shift();
+
+                return({player1:player1,player2:player2});
+            }
         }
-        console.log(this.playqueue);
-        console.log(this.onlineuser);
-        console.log(this.onlineusermap);
     }
 }
