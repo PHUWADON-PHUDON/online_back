@@ -29,7 +29,7 @@ export class UserService {
                 
                 if (isvaliduser) {
                     //create jwt
-                    const jwtpayload = {id:finduser.id,name:finduser.name,email:finduser.email};
+                    const jwtpayload = {id:finduser.id,name:finduser.name,email:finduser.email,score:finduser.score};
                     const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
 
                     return({token:jwttoken});
@@ -61,7 +61,7 @@ export class UserService {
             });
 
             //create jwt
-            const jwtpayload = {id:createuser.id,name:createuser.name,email:createuser.email};
+            const jwtpayload = {id:createuser.id,name:createuser.name,email:createuser.email,score:createuser.score};
             const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
 
             return({token:jwttoken});
@@ -95,7 +95,7 @@ export class UserService {
 
             if (finuser) {
                 //create jwt
-                const jwtpayload = {id:finuser.id,name:finuser.name,email:finuser.email};
+                const jwtpayload = {id:finuser.id,name:finuser.name,email:finuser.email,score:finuser.score};
                 const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
 
                 return({token:jwttoken});
@@ -109,7 +109,7 @@ export class UserService {
                 });
 
                 //create jwt
-                const jwtpayload = {id:createuser.id,name:createuser.name,email:createuser.email};
+                const jwtpayload = {id:createuser.id,name:createuser.name,email:createuser.email,score:createuser.score};
                 const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
 
                 return({token:jwttoken});

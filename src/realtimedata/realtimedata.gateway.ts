@@ -1,4 +1,4 @@
-import { WebSocketGateway,SubscribeMessage,MessageBody,WebSocketServer } from '@nestjs/websockets';
+import { WebSocketGateway,SubscribeMessage,MessageBody,WebSocketServer,ConnectedSocket } from '@nestjs/websockets';
 import { RealtimedataService } from './realtimedata.service';
 import { Server, Socket } from 'socket.io';
 
@@ -7,18 +7,22 @@ export class RealtimedataGateway {
   @WebSocketServer() server: Server;
   constructor(private readonly realtimedataService: RealtimedataService) {}
 
-  handleConnection(client:any) {
-    console.log(`✅ Client connescted: ${client.id}`);
+  handleConnection(client:Socket) {}
 
-    this.realtimedataService.adduseronline();
+  @SubscribeMessage("useronline")
+  useronline(@MessageBody() userid:number,@ConnectedSocket() client: Socket) {
+    this.realtimedataService.adduseronline(userid,client.id);
+    this.server.emit('useronline',{users:this.realtimedataService.useronline()});
   }
 
-  handleDisconnect(client:any) {
-    console.log(`❌ Client disconnected: ${client.id}`);
+  @SubscribeMessage("findmatch")
+  playqueue(@MessageBody() userid:number,@ConnectedSocket() client: Socket) {
+    console.log(userid);
+    this.realtimedataService.findmatch(userid);
   }
 
-  @SubscribeMessage('useronline')
-  useronline(@MessageBody() data:{userid:number}) {
+  handleDisconnect(client:Socket) {
+    this.realtimedataService.useroffline(client.id);
     this.server.emit('useronline',{users:this.realtimedataService.useronline()});
   }
 }
