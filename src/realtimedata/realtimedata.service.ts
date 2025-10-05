@@ -13,6 +13,7 @@ export class RealtimedataService {
     }
 
     useroutofgame(clientid:string) {
+        console.log("abc") 
         const finduser = this.onlineusermap[clientid];
 
         if (finduser) {
