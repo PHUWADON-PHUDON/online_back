@@ -16,17 +16,29 @@ export class RealtimedataGateway {
   }
 
   @SubscribeMessage("findmatch")
-  playqueue(@MessageBody() userid:number,@ConnectedSocket() client: Socket) {
-    const player = this.realtimedataService.findmatch(userid);
+  playqueue(@MessageBody() userdata:{username:string,userid:number},@ConnectedSocket() client: Socket) {
+    const player = this.realtimedataService.findmatch(userdata);
 
     if (player) {
-      if (player.player1 === userid || player.player2 === userid) {
+      if (player.player1.userid === userdata.userid || player.player2.userid === userdata.userid) {
         this.server.emit("findmatch",player);
       }
     }
   }
 
+  // @SubscribeMessage("switchplayer")
+  // switchplayer(@MessageBody() userdata:any,@ConnectedSocket() client: Socket) {
+  //   console.log(userdata)
+
+  //   if (userdata.userid === userdata.player1 || userdata.userid === userdata.player2) {
+       
+  //   }
+  // }
+
+  @SubscribeMessage("outofgame")
   handleDisconnect(client:Socket) {
+    this.server.emit('outofgame',this.realtimedataService.useroutofgame(client.id));
+
     this.realtimedataService.useroffline(client.id);
     this.server.emit('useronline',{users:this.realtimedataService.useronline()});
   }
