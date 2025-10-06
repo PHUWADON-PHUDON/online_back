@@ -13,15 +13,22 @@ export class RealtimedataService {
     }
 
     useroutofgame(clientid:string) {
-        console.log("abc") 
         const finduser = this.onlineusermap[clientid];
 
         if (finduser) {
-            console.log(finduser) 
-            console.log(this.inqueue) 
-            const findout = this.inqueue.some((e:any) => e.player1 === finduser || e.player2 === finduser);
+            //clear user queue
+            const finduserqueue = this.playqueue.find((e:any) => e.userid === finduser);
+            if (finduserqueue) {
+                const finduserqueueindex = this.inqueue.indexOf(finduserqueue);
+                this.playqueue.splice(finduserqueueindex,1);
+            }
+
+            //clear user in queue
+            const findout = this.inqueue.find((e:any) => e.player1 === finduser || e.player2 === finduser);
             if (findout) {
-                return(true);
+                const finduserinqueue = this.inqueue.indexOf(findout);
+                this.inqueue.splice(finduserinqueue,1);
+                return({player1:findout.player1,player2:findout.player2});
             }
         }
     }
