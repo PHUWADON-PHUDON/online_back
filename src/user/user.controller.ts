@@ -31,7 +31,7 @@ export class UserController {
     const resdata = await this.userService.register(data);
 
     res.cookie("token",resdata.token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: false,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 60
