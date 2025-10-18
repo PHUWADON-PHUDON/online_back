@@ -13,15 +13,22 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post("login")
-  async login(@Body() data:Typedata,@Res({ passthrough: true }) res: Response) {
-    const resdata = await this.userService.login(data);
+  async login(@Body() data:Typedata,@Res({ passthrough: true }) res: Response, @Req() req:any) {
+    const resdata:any = await this.userService.login(data);
 
-    res.cookie("token",resdata.token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 60 * 60 * 24 * 60
-    });
+    // res.cookie("token",resdata.token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "none",
+    //   maxAge: 60 * 60 * 24 * 60
+    // });
+
+    req.session.user = {
+      id: resdata.id,
+      name: resdata.name,
+      email: resdata.email,
+      score: resdata.score
+    };
 
     return(true);
   }
@@ -41,15 +48,23 @@ export class UserController {
   }
 
   @Get("verifyuser")
-  verifyuser(@Req() req:Request) {
-    const authheader = req.headers['authorization'];
-    
-    if (authheader) {
-      return this.userService.verifyuser(authheader);
+  verifyuser(@Req() req:any) {
+    // const authheader = req.headers['authorization']?.split("Bearer")[1].trim();
+    // if (authheader) {
+    //  return this.userService.verifyuser(authheader);
+    // }
+
+    console.log(req.session.user);
+
+    if (req.session.user) {
+      return req.session.user;
     }
     else {
-      return this.userService.verifyuser(req.cookies["token"]);
+      return req.session.user;
     }
+    // else {
+    //  return this.userService.verifyuser(req.cookies["token"]);
+    // }
   }
 
   @Post("googlelogin")
