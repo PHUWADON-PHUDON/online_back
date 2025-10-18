@@ -26,14 +26,13 @@ export class RealtimedataGateway {
     }
   }
 
-  // @SubscribeMessage("switchplayer")
-  // switchplayer(@MessageBody() userdata:any,@ConnectedSocket() client: Socket) {
-  //   console.log(userdata)
+  @SubscribeMessage("switchplayer")
+  switchplayer(@MessageBody() userdata:any,@ConnectedSocket() client: Socket) {
 
-  //   if (userdata.userid === userdata.player1 || userdata.userid === userdata.player2) {
-       
-  //   }
-  // }
+    if (userdata.userid === userdata.player1 || userdata.userid === userdata.player2) {
+       this.server.emit('switchplayer',userdata);
+    }
+  }
 
   @SubscribeMessage("outofgame")
   handleDisconnect(client:Socket) {
