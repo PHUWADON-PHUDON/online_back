@@ -23,12 +23,16 @@ export class UserController {
     //   maxAge: 60 * 60 * 24 * 60
     // });
 
+    console.log("data before login:", data);
+
     req.session.user = {
       id: resdata.id,
       name: resdata.name,
       email: resdata.email,
       score: resdata.score
     };
+
+    console.log("✅ Session after login:", req.session);
 
     return(true);
   }
