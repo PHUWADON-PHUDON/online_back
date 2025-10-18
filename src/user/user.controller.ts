@@ -17,8 +17,8 @@ export class UserController {
     const resdata = await this.userService.login(data);
 
     res.cookie("token",resdata.token, {
-      httpOnly: true,
-      secure: false,
+      httpOnly: false,
+      secure: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 60
     });
@@ -32,7 +32,7 @@ export class UserController {
 
     res.cookie("token",resdata.token, {
       httpOnly: false,
-      secure: false,
+      secure: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 60
     });
