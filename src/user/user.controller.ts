@@ -17,9 +17,9 @@ export class UserController {
     const resdata = await this.userService.login(data);
 
     res.cookie("token",resdata.token, {
-      httpOnly: false,
+      httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 60 * 60 * 24 * 60
     });
 
@@ -31,12 +31,10 @@ export class UserController {
     const resdata = await this.userService.register(data);
 
     res.cookie("token",resdata.token, {
-      // httpOnly: false,
-      // secure: true,
-      // sameSite: "lax",
-      // maxAge: 60 * 60 * 24 * 60
-      path: '/',
-      maxAge: 24 * 60 * 60
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 60 * 60 * 24 * 60
     });
 
     return(true);
@@ -59,12 +57,10 @@ export class UserController {
     const resdata = await this.userService.googlelogin(data);
 
     res.cookie("token",resdata.token, {
-      // httpOnly: true,
-      // secure: false,
-      // sameSite: "lax",
-      // maxAge: 60 * 60 * 24 * 60
-      path: '/',
-      maxAge: 24 * 60 * 60
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 60
     });
 
     return(true);
