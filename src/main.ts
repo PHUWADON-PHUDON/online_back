@@ -11,7 +11,13 @@ async function bootstrap() {
     session({
       secret: process.env.SESSION_SECRET as string,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24,
+        secure: true,
+        sameSite: 'none',
+      },
     }),
   );
 
