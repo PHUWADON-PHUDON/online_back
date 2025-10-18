@@ -20,6 +20,10 @@ async function bootstrap() {
       },
     }),
   );
+  app.use((req:any, res:any, next:any) => {
+    console.log('SESSION CHECK:', req.session);
+    next();
+  });
 
   app.enableCors({
     origin: process.env.CORS_URL,
