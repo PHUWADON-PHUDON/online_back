@@ -26,7 +26,7 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: process.env.CORS_URL,
+    origin: "https://xoonlinefront.vercel.app",//process.env.CORS_URL
     credentials: true
   });
 
