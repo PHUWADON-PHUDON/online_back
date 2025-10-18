@@ -31,10 +31,12 @@ export class UserController {
     const resdata = await this.userService.register(data);
 
     res.cookie("token",resdata.token, {
-      httpOnly: false,
-      secure: true,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 60
+      // httpOnly: false,
+      // secure: true,
+      // sameSite: "lax",
+      // maxAge: 60 * 60 * 24 * 60
+      path: '/',
+      maxAge: 24 * 60 * 60
     });
 
     return(true);
@@ -57,10 +59,12 @@ export class UserController {
     const resdata = await this.userService.googlelogin(data);
 
     res.cookie("token",resdata.token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 60
+      // httpOnly: true,
+      // secure: false,
+      // sameSite: "lax",
+      // maxAge: 60 * 60 * 24 * 60
+      path: '/',
+      maxAge: 24 * 60 * 60
     });
 
     return(true);
