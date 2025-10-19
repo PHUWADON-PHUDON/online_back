@@ -34,21 +34,21 @@ async function bootstrap() {
   });
 
   // ✅ ตั้งค่า CORS ให้กับ Socket.IO ด้วย
-  const server = app.getHttpServer();
-  const io = require('socket.io')(server, {
-    cors: {
-      origin: 'https://xoonlinefront.vercel.app',
-      methods: ['GET', 'POST'],
-      credentials: true,
-    },
-  });
+  // const server = app.getHttpServer();
+  // const io = require('socket.io')(server, {
+  //   cors: {
+  //     origin: 'https://xoonlinefront.vercel.app',
+  //     methods: ['GET', 'POST'],
+  //     credentials: true,
+  //   },
+  // });
 
-  io.on('connection', (socket: any) => {
-    console.log('⚡ Client connected:', socket.id);
-    socket.on('disconnect', () => {
-      console.log('❌ Client disconnected:', socket.id);
-    });
-  });
+  // io.on('connection', (socket: any) => {
+  //   console.log('⚡ Client connected:', socket.id);
+  //   socket.on('disconnect', () => {
+  //     console.log('❌ Client disconnected:', socket.id);
+  //   });
+  // });
 
   await app.listen(process.env.PORT || 3000);
 }
