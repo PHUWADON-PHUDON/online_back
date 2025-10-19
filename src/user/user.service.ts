@@ -21,7 +21,7 @@ export class UserService {
 
     async login(data:Typelogindata) {
         try{
-            //const jwt_secret = process.env.JWT_SECRET as string;
+            const jwt_secret = process.env.JWT_SECRET as string;
             const finduser = await this.prisma.user.findFirst({where:{email:data.email}});
             
             if (finduser) {
@@ -29,10 +29,10 @@ export class UserService {
                 
                 if (isvaliduser) {
                     //create jwt
-                    //const jwtpayload = {id:finduser.id,name:finduser.name,email:finduser.email,score:finduser.score};
-                    //const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
+                    const jwtpayload = {id:finduser.id,name:finduser.name,email:finduser.email,score:finduser.score};
+                    const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
 
-                    return({id:finduser.id,name:finduser.name,email:finduser.email,score:finduser.score});
+                    return({token:jwttoken});
                 }
                 else {
                     throw new BadRequestException();
