@@ -55,6 +55,8 @@ export class UserController {
     //   return this.userService.verifyuser(req.cookies["token"]);
     // }
 
+    console.log(req.session.user);
+
     if (req.session.user) {
       return({status:true,data:req.session.user});
     }
