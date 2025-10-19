@@ -35,7 +35,7 @@ export class UserController {
     console.log("✅ Session after login:", req.session);
 
     req.session.save(() => {
-        return(true);
+        res.json(true);
     });
   }
 
@@ -59,8 +59,8 @@ export class UserController {
     // if (authheader) {
     //  return this.userService.verifyuser(authheader);
     // }
-
-    console.log(req.session);
+    
+    console.log(req.session.user);
 
     if (req.session.user) {
       return req.session.user;
