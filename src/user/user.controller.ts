@@ -34,7 +34,9 @@ export class UserController {
 
     console.log("✅ Session after login:", req.session);
 
-    return(true);
+    req.session.save(() => {
+        return(true);
+    });
   }
 
   @Post("register")
@@ -58,7 +60,7 @@ export class UserController {
     //  return this.userService.verifyuser(authheader);
     // }
 
-    console.log(req.session.user);
+    console.log(req.session);
 
     if (req.session.user) {
       return req.session.user;
