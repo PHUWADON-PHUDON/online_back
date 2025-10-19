@@ -21,18 +21,13 @@ export class UserService {
 
     async login(data:Typelogindata) {
         try{
-            const jwt_secret = process.env.JWT_SECRET as string;
             const finduser = await this.prisma.user.findFirst({where:{email:data.email}});
             
             if (finduser) {
                 const isvaliduser = await bcrypt.compare(data.password,finduser.password!);
                 
                 if (isvaliduser) {
-                    //create jwt
-                    const jwtpayload = {id:finduser.id,name:finduser.name,email:finduser.email,score:finduser.score};
-                    const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
-
-                    return({token:jwttoken});
+                    return({id:finduser.id,name:finduser.name,email:finduser.email,score:finduser.score});
                 }
                 else {
                     throw new BadRequestException();
@@ -49,7 +44,6 @@ export class UserService {
 
     async register(data:Typeregisterdata) {
         try{
-            const jwt_secret = process.env.JWT_SECRET as string;
             const hashpassword = await bcrypt.hash(data.password,10);
             
             const createuser = await this.prisma.user.create({
@@ -60,11 +54,7 @@ export class UserService {
                 }
             });
 
-            //create jwt
-            const jwtpayload = {id:createuser.id,name:createuser.name,email:createuser.email,score:createuser.score};
-            const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
-
-            return({token:jwttoken});
+            return({id:createuser.id,name:createuser.name,email:createuser.email,score:createuser.score});
         }
         catch(err) {
             throw new BadRequestException(err.message);
@@ -90,15 +80,10 @@ export class UserService {
 
     async googlelogin(data:Typelogindata) {
         try{
-            const jwt_secret = process.env.JWT_SECRET as string;
             const finuser = await this.prisma.user.findFirst({where:{email:data.email}});
 
             if (finuser) {
-                //create jwt
-                const jwtpayload = {id:finuser.id,name:finuser.name,email:finuser.email,score:finuser.score};
-                const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
-
-                return({token:jwttoken});
+                return({id:finuser.id,name:finuser.name,email:finuser.email,score:finuser.score});
             }
             else {
                 const createuser = await this.prisma.user.create({
@@ -108,11 +93,7 @@ export class UserService {
                     }
                 });
 
-                //create jwt
-                const jwtpayload = {id:createuser.id,name:createuser.name,email:createuser.email,score:createuser.score};
-                const jwttoken = jwt.sign(jwtpayload,jwt_secret, { expiresIn: '1d' });
-
-                return({token:jwttoken});
+                return({id:createuser.id,name:createuser.name,email:createuser.email,score:createuser.score});
             }
         }
         catch(err) {
