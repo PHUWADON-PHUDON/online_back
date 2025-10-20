@@ -20,6 +20,7 @@ async function bootstrap() {
         maxAge: 1000 * 60 * 60 * 24,
         secure: process.env.COOKIE_SECURE == "product" ? true:false,
         sameSite: process.env.COOKIE_SAMESITE == "product" ? "none":"lax",
+        domain: process.env.COOKIE_DOMAIN
       },
     }),
   );
